@@ -20,3 +20,14 @@ export function openDB() {
     request.onerror = () => reject(request.error);
   });
 }
+export function partExists(db, id) {
+  return new Promise((resolve) => {
+    const tx = db.transaction("parts", "readonly");
+    const store = tx.objectStore("parts");
+    const request = store.get(id);
+
+    request.onsuccess = () => {
+      resolve(!!request.result);
+    };
+  });
+}
